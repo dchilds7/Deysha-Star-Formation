@@ -4,10 +4,7 @@
 # Copyright (c) 2015, Vispy Development Team.
 # Distributed under the (new) BSD License. See LICENSE.txt for more info.
 
-"""
-Just a very fake galaxy.
-Astronomers and cosmologists will kill me !
-"""
+
 
 import numpy as np
 
@@ -18,6 +15,7 @@ from vispy.util.transforms import perspective, translate, rotate
 # Manual galaxy creation
 # (did you really expect a simulation in less than 250 python lines ?)
 
+num_arms = 3
 
 def make_arm(n, angle):
     R = np.linspace(10, 450 + 50 * np.random.uniform(.5, 1.), n)
@@ -26,7 +24,7 @@ def make_arm(n, angle):
         np.pi / 6 * np.random.normal(0, .5, n)
     S = 8 + 2 * np.abs(np.random.normal(0, 1, n))
     S *= np.linspace(1, .85, n)
-    P = np.zeros((n, 3), dtype=np.float32)
+    P = np.zeros((n, num_arms), dtype=np.float32)
     X, Y, Z = P[:, 0], P[:, 1], P[:, 2]
     X[...] = R * np.cos(T)
     Y[...] = R * np.sin(T) * 1.1
@@ -42,7 +40,7 @@ def make_arm(n, angle):
 
     return P / 256, S / 2, D
 p = 50000
-n = 3 * p
+n = num_arms * p
 
 # Very simple colormap
 cmap = np.array([[255, 124, 0], [255, 163, 76],
@@ -117,13 +115,13 @@ class Canvas(app.Canvas):
         app.Canvas.__init__(self, keys='interactive', size=(800, 600))
         ps = self.pixel_scale
 
-        self.title = "A very fake galaxy [mouse scroll to zoom]"
+        self.title = "Deysha's Galaxy"
 
-        data = np.zeros(n, [('a_position', np.float32, 3),
+        data = np.zeros(n, [('a_position', np.float32, num_arms),
                         ('a_size', np.float32, 1),
                         ('a_dist', np.float32, 1)])
-
-        for i in range(3):
+ 
+        for i in range(num_arms):
             P, S, D = make_arm(p, i * 2 * np.pi / 3)
             data['a_dist'][(i + 0) * p:(i + 1) * p] = D
             data['a_position'][(i + 0) * p:(i + 1) * p] = P
