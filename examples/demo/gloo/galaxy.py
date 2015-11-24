@@ -15,16 +15,31 @@ from vispy.util.transforms import perspective, translate, rotate
 # Manual galaxy creation
 # (did you really expect a simulation in less than 250 python lines ?)
 
+
+
+
 num_arms = 3
 
 def make_arm(n, angle):
     R = np.linspace(10, 450 + 50 * np.random.uniform(.5, 1.), n)
     R += 40 * np.random.normal(0, 2., n) * np.linspace(1, .1, n)
+#printed variables
+    print("The value of variable R is {0}".format(R))
+    
     T = angle + np.linspace(0, 2.5 * np.pi, n) + \
         np.pi / 6 * np.random.normal(0, .5, n)
+    print("The value of variable T is {0}".format(T))
+
+    
     S = 8 + 2 * np.abs(np.random.normal(0, 1, n))
     S *= np.linspace(1, .85, n)
+    print("The value of variable S is {0}".format(S))
+
+
     P = np.zeros((n, num_arms), dtype=np.float32)
+
+    print("The value of variable P is {0}".format(P))
+
     X, Y, Z = P[:, 0], P[:, 1], P[:, 2]
     X[...] = R * np.cos(T)
     Y[...] = R * np.sin(T) * 1.1
@@ -115,7 +130,7 @@ class Canvas(app.Canvas):
         app.Canvas.__init__(self, keys='interactive', size=(800, 600))
         ps = self.pixel_scale
 
-        self.title = "Deysha's Galaxy"
+        self.title = "Deysha's Galaxy aka I hate this class"
 
         data = np.zeros(n, [('a_position', np.float32, num_arms),
                         ('a_size', np.float32, 1),
