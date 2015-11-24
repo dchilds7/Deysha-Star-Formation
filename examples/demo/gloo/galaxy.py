@@ -42,9 +42,17 @@ def make_arm(n, angle):
 
     X, Y, Z = P[:, 0], P[:, 1], P[:, 2]
     X[...] = R * np.cos(T)
+    print("The value of variable X is {0}".format(X))
+    
     Y[...] = R * np.sin(T) * 1.1
+    print("The value of variable Y is {0}".format(Y))
+
     D = np.sqrt(X * X + Y * Y)
+    print("The value of variable D is {0}".format(D))
+
     Z[...] = 8 * np.random.normal(0, 2 - D / 512., n)
+    print("The value of variable Z is {0}".format(Z))
+
     X += (D * np.random.uniform(0, 1, n) > 250) * \
         (.05 * D * np.random.uniform(-1, 1, n))
     Y += (D * np.random.uniform(0, 1, n) > 250) * \
