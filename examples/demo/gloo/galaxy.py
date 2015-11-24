@@ -15,6 +15,7 @@ from vispy.util.transforms import perspective, translate, rotate
 # Manual galaxy creation
 # (did you really expect a simulation in less than 250 python lines ?)
 
+DEBUG = True
 
 
 
@@ -24,34 +25,41 @@ def make_arm(n, angle):
     R = np.linspace(10, 450 + 50 * np.random.uniform(.5, 1.), n)
     R += 40 * np.random.normal(0, 2., n) * np.linspace(1, .1, n)
 #printed variables
-    print("The value of variable R is {0}".format(R))
+    if DEBUG:
+        print("The value of variable R is {0}".format(R))
     
     T = angle + np.linspace(0, 2.5 * np.pi, n) + \
         np.pi / 6 * np.random.normal(0, .5, n)
-    print("The value of variable T is {0}".format(T))
+    if DEBUG:    
+        print("The value of variable T is {0}".format(T))
 
     
     S = 8 + 2 * np.abs(np.random.normal(0, 1, n))
     S *= np.linspace(1, .85, n)
-    print("The value of variable S is {0}".format(S))
+    if DEBUG:
+        print("The value of variable S is {0}".format(S))
 
 
     P = np.zeros((n, num_arms), dtype=np.float32)
-
-    print("The value of variable P is {0}".format(P))
+    if DEBUG:
+        print("The value of variable P is {0}".format(P))
 
     X, Y, Z = P[:, 0], P[:, 1], P[:, 2]
     X[...] = R * np.cos(T)
-    print("The value of variable X is {0}".format(X))
+    if DEBUG:
+        print("The value of variable X is {0}".format(X))
     
     Y[...] = R * np.sin(T) * 1.1
-    print("The value of variable Y is {0}".format(Y))
+    if DEBUG:
+        print("The value of variable Y is {0}".format(Y))
 
     D = np.sqrt(X * X + Y * Y)
-    print("The value of variable D is {0}".format(D))
+    if DEBUG:
+        print("Th e value of variable D is {0}".format(D))
 
     Z[...] = 8 * np.random.normal(0, 2 - D / 512., n)
-    print("The value of variable Z is {0}".format(Z))
+    if DEBUG:
+        print("The value of variable Z is {0}".format(Z))
 
     X += (D * np.random.uniform(0, 1, n) > 250) * \
         (.05 * D * np.random.uniform(-1, 1, n))
