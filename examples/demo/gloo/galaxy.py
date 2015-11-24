@@ -15,7 +15,7 @@ from vispy.util.transforms import perspective, translate, rotate
 # Manual galaxy creation
 # (did you really expect a simulation in less than 250 python lines ?)
 
-DEBUG = True
+DEBUG = False
 
 
 
