@@ -5,7 +5,7 @@
 # Distributed under the (new) BSD License. See LICENSE.txt for more info.
 
 
-
+import argparse
 import numpy as np
 
 from vispy import gloo
@@ -14,12 +14,20 @@ from vispy.util.transforms import perspective, translate, rotate
 
 # Manual galaxy creation
 # (did you really expect a simulation in less than 250 python lines ?)
+#imported argparse to add statement below
+parser = argparse.ArgumentParser()
+parser.add_argument("num_arms", type=int)
+parser.add_argument('--debug', '-d', action='store_true')
+args = parser.parse_args()
+if args.debug:
+    DEBUG = True
+else:
+    DEBUG = False
+if args.num_arms: 
+    num_arms= int(args.num_arms)
+else: 
+    num_arms=3
 
-DEBUG = False
-
-
-
-num_arms = 3
 
 def make_arm(n, angle):
     R = np.linspace(10, 450 + 50 * np.random.uniform(.5, 1.), n)
@@ -146,14 +154,14 @@ class Canvas(app.Canvas):
         app.Canvas.__init__(self, keys='interactive', size=(800, 600))
         ps = self.pixel_scale
 
-        self.title = "Deysha's Galaxy aka I hate this class"
+        self.title = "Deysha's Galaxy"
 
         data = np.zeros(n, [('a_position', np.float32, num_arms),
                         ('a_size', np.float32, 1),
                         ('a_dist', np.float32, 1)])
- 
+#changed 3 to num_arms so the galaxy has more arms.  
         for i in range(num_arms):
-            P, S, D = make_arm(p, i * 2 * np.pi / 3)
+            P, S, D = make_arm(p, i * 2 * np.pi / num_arms)
             data['a_dist'][(i + 0) * p:(i + 1) * p] = D
             data['a_position'][(i + 0) * p:(i + 1) * p] = P
             data['a_size'][(i + 0) * p:(i + 1) * p] = S*ps
