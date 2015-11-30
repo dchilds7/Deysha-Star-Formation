@@ -13,7 +13,6 @@ from vispy import app
 from vispy.util.transforms import perspective, translate, rotate
 
 # Manual galaxy creation
-# (did you really expect a simulation in less than 250 python lines ?)
 #imported argparse to add statement below
 parser = argparse.ArgumentParser()
 parser.add_argument("num_arms", type=int)
@@ -23,11 +22,10 @@ if args.debug:
     DEBUG = True
 else:
     DEBUG = False
-if args.num_arms: 
-    num_arms= int(args.num_arms)
-else: 
-    num_arms=3
-
+if args.num_arms:
+        num_arms= int(args.num_arms)
+else:
+        num_arms=3
 
 def make_arm(n, angle):
     R = np.linspace(10, 450 + 50 * np.random.uniform(.5, 1.), n)
@@ -78,7 +76,7 @@ def make_arm(n, angle):
     D = (D - D.min()) / (D.max() - D.min())
 
     return P / 256, S / 2, D
-p = 50000
+p = 1000
 n = num_arms * p
 
 # Very simple colormap
